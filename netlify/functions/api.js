@@ -52,7 +52,7 @@ function getStatus(build) {
   };
 }
 
-router.get("/hello", (req, res) => {
+router.post("/hello", (req, res) => {
   console.log("hello");
   const { event, build } = req.body;
   console.log("build", build);
