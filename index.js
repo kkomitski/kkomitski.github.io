@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 
-const { REST_API, TOKEN } = process.env;
+// const { REST_API, TOKEN } = process.env;
 
 function getStatus(build) {
   switch (build.status) {
@@ -44,43 +44,55 @@ function getStatus(build) {
   };
 }
 
-async function setCommitStatus(build, { repoId, name }) {
-  const status = getStatus(build);
+// async function setCommitStatus(build, { repoId, name }) {
+//   const status = getStatus(build);
 
-  const body = JSON.stringify({
-    context: name ? `UI Tests (${name})` : 'UI Tests',
-    target_url: build.webUrl,
-    ...status,
-  });
+//   const body = JSON.stringify({
+//     context: name ? `UI Tests (${name})` : 'UI Tests',
+//     target_url: build.webUrl,
+//     ...status,
+//   });
 
-  console.log(`POSTING to ${REST_API}repositories/${repoId}/statuses/${build.commit}`);
+//   console.log(`POSTING to ${REST_API}repositories/${repoId}/statuses/${build.commit}`);
 
-  const result = await fetch(`${REST_API}repositories/${repoId}/statuses/${build.commit}`, {
-    method: 'POST',
-    body,
-    headers: { Authorization: `Bearer ${TOKEN}` },
-  });
+//   const result = await fetch(`${REST_API}repositories/${repoId}/statuses/${build.commit}`, {
+//     method: 'POST',
+//     body,
+//     headers: { Authorization: `Bearer ${TOKEN}` },
+//   });
 
-  console.log(result);
-  console.log(await result.text());
-}
+//   console.log(result);
+//   console.log(await result.text());
+// }
 
 const app = express();
 app.use(bodyParser.json());
 
 app.post('/webhook', async (req, res) => {
-  const { event, build } = req.body;
-  const { repoId, name } = req.query;
+  const status = getStatus(build);
 
-  if (!repoId) {
-    throw new Error('Need a repoId query param on webhook URL');
-  }
+  const body = JSON.stringify({
+    context: name ? `UI Tests (${name})` : "UI Tests",
+    target_url: build.webUrl,
+    ...status,
+  });
 
-  if (event === 'build-status-changed') {
-    await setCommitStatus(build, { repoId, name });
-  }
+  console.log("Body:", body);
 
-  res.end('OK');
+  res.send(body);
+
+  // const { event, build } = req.body;
+  // const { repoId, name } = req.query;
+
+  // if (!repoId) {
+  //   throw new Error('Need a repoId query param on webhook URL');
+  // }
+
+  // if (event === 'build-status-changed') {
+  //   await setCommitStatus(build, { repoId, name });
+  // }
+
+  res.end("OK");
 });
 
 const { PORT = 3000 } = process.env;
