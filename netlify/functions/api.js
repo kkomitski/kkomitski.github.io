@@ -8,15 +8,6 @@ import serverless from "serverless-http";
 const api = express();
 
 const router = Router();
-router.get("/hello", (req, res) =>
-  res.send("Hello World!")
-);
-
-api.use("/api/", router);
-
-export const handler = serverless(api);
-
-// const { REST_API, TOKEN } = process.env;
 
 function getStatus(build) {
   switch (build.status) {
@@ -58,6 +49,18 @@ function getStatus(build) {
     context: "UI Tests",
   };
 }
+
+router.get("/hello", (req, res) => {
+  console.log("hello");
+
+  res.send("Hello World!");
+});
+
+api.use("/api/", router);
+
+export const handler = serverless(api);
+
+// const { REST_API, TOKEN } = process.env;
 
 // async function setCommitStatus(build, { repoId, name }) {
 //   const status = getStatus(build);
