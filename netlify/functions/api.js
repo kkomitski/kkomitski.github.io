@@ -52,7 +52,7 @@ function getStatus(build) {
   };
 }
 
-router.post("/hello", (req, res) => {
+router.post("/webhook", (req, res) => {
   console.log("hello");
   const { event, build } = req.body;
   console.log("build", build);
