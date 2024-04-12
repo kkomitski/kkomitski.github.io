@@ -53,16 +53,39 @@ function getStatus(build) {
 }
 
 router.post("/webhook", (req, res) => {
-  console.log("one", req);
-  console.log("one", req.body.toString());
-  console.log("two", JSON.parse(req.body.toString()));
+  let one;
+  let two;
+  let three;
+  let four;
+
+  // console.log("one", req);
+  // console.log("one", req);
+  // console.log("one", req.body.toString());
+  // console.log("two", JSON.parse(req.body.toString()));
 
   try {
-    console.log("one", req.body.toString());
-    console.log("two", JSON.parse(req.body.toString()));
+    one = req;
+    two = req.body;
+    three = req.body.toString();
+    four = JSON.parse(req.body.toString());
+
+    console.log("ok", one, two, three, four);
   } catch (error) {
-    console.log("error", error);
+    if (one) one = "error";
+    if (two) two = "error";
+    if (three) three = "error";
+    if (four) four = "error";
+
+    console.log("error", one, two, three, four);
   }
+
+  console.log("error", {
+    one: one,
+    one: two,
+    one: three,
+    one: four,
+  });
+
   res.send("ok");
 });
 
