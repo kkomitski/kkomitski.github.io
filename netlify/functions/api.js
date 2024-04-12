@@ -53,23 +53,29 @@ function getStatus(build) {
 }
 
 router.post("/webhook", (req, res) => {
-  console.log("hello");
-  console.log("hello", req.body);
-  const { event, build } = req.body;
-  console.log("build", build);
-  console.log("event", event);
+  console.log(req);
 
-  const status = getStatus(build);
+  try {
+    console.log("hello");
+    console.log("hello", req.body);
+    const { event, build } = req.body;
+    console.log("build", build);
+    console.log("event", event);
 
-  const body = JSON.stringify({
-    context: name ? `UI Tests (${name})` : "UI Tests",
-    target_url: build.webUrl,
-    ...status,
-  });
+    const status = getStatus(build);
 
-  console.log("Body:", body);
+    const body = JSON.stringify({
+      context: name ? `UI Tests (${name})` : "UI Tests",
+      target_url: build.webUrl,
+      ...status,
+    });
 
-  res.send(body);
+    console.log("Body:", body);
+
+    res.send(body);
+  } catch (error) {
+    console.log("error", error);
+  }
 });
 
 api.use("/api/", router);
