@@ -10,6 +10,8 @@ const api = express();
 const router = Router();
 
 function getStatus(build) {
+  console.log(build);
+
   switch (build.status) {
     case "FAILED":
       return {
@@ -52,8 +54,17 @@ function getStatus(build) {
 
 router.get("/hello", (req, res) => {
   console.log("hello");
+  const status = getStatus(build);
 
-  res.send("Hello World!");
+  const body = JSON.stringify({
+    context: name ? `UI Tests (${name})` : "UI Tests",
+    target_url: build.webUrl,
+    ...status,
+  });
+
+  console.log("Body:", body);
+
+  res.send(body);
 });
 
 api.use("/api/", router);
