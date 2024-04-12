@@ -1,6 +1,20 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const fetch = require("node-fetch");
+// const express = require("express");
+// const bodyParser = require("body-parser");
+// const fetch = require("node-fetch");
+
+import express, { Router } from "express";
+import serverless from "serverless-http";
+
+const api = express();
+
+const router = Router();
+router.get("/hello", (req, res) =>
+  res.send("Hello World!")
+);
+
+api.use("/api/", router);
+
+export const handler = serverless(api);
 
 // const { REST_API, TOKEN } = process.env;
 
@@ -66,37 +80,37 @@ function getStatus(build) {
 //   console.log(await result.text());
 // }
 
-const app = express();
-app.use(bodyParser.json());
+// const app = express();
+// app.use(bodyParser.json());
 
-app.post("/webhook", async (req, res) => {
-  const status = getStatus(build);
+// app.post("/webhook", async (req, res) => {
+//   const status = getStatus(build);
 
-  const body = JSON.stringify({
-    context: name ? `UI Tests (${name})` : "UI Tests",
-    target_url: build.webUrl,
-    ...status,
-  });
+//   const body = JSON.stringify({
+//     context: name ? `UI Tests (${name})` : "UI Tests",
+//     target_url: build.webUrl,
+//     ...status,
+//   });
 
-  console.log("Body:", body);
+//   console.log("Body:", body);
 
-  res.send(body);
+//   res.send(body);
 
-  // const { event, build } = req.body;
-  // const { repoId, name } = req.query;
+//   // const { event, build } = req.body;
+//   // const { repoId, name } = req.query;
 
-  // if (!repoId) {
-  //   throw new Error('Need a repoId query param on webhook URL');
-  // }
+//   // if (!repoId) {
+//   //   throw new Error('Need a repoId query param on webhook URL');
+//   // }
 
-  // if (event === 'build-status-changed') {
-  //   await setCommitStatus(build, { repoId, name });
-  // }
+//   // if (event === 'build-status-changed') {
+//   //   await setCommitStatus(build, { repoId, name });
+//   // }
 
-  res.end("OK");
-});
+//   res.end("OK");
+// });
 
-const { PORT = 3000 } = process.env;
-app.listen(PORT, () =>
-  console.log(`🚀 Server running on port ${PORT}`)
-);
+// const { PORT = 3000 } = process.env;
+// app.listen(PORT, () =>
+//   console.log(`🚀 Server running on port ${PORT}`)
+// );
