@@ -54,6 +54,7 @@ function getStatus(build) {
 
 router.post("/webhook", (req, res) => {
   console.log("hello");
+  console.log("hello", req.body);
   const { event, build } = req.body;
   console.log("build", build);
   console.log("event", event);
@@ -74,61 +75,3 @@ router.post("/webhook", (req, res) => {
 api.use("/api/", router);
 
 export const handler = serverless(api);
-
-// const { REST_API, TOKEN } = process.env;
-
-// async function setCommitStatus(build, { repoId, name }) {
-//   const status = getStatus(build);
-
-//   const body = JSON.stringify({
-//     context: name ? `UI Tests (${name})` : 'UI Tests',
-//     target_url: build.webUrl,
-//     ...status,
-//   });
-
-//   console.log(`POSTING to ${REST_API}repositories/${repoId}/statuses/${build.commit}`);
-
-//   const result = await fetch(`${REST_API}repositories/${repoId}/statuses/${build.commit}`, {
-//     method: 'POST',
-//     body,
-//     headers: { Authorization: `Bearer ${TOKEN}` },
-//   });
-
-//   console.log(result);
-//   console.log(await result.text());
-// }
-
-// const app = express();
-// app.use(bodyParser.json());
-
-// app.post("/webhook", async (req, res) => {
-//   const status = getStatus(build);
-
-//   const body = JSON.stringify({
-//     context: name ? `UI Tests (${name})` : "UI Tests",
-//     target_url: build.webUrl,
-//     ...status,
-//   });
-
-//   console.log("Body:", body);
-
-//   res.send(body);
-
-//   // const { event, build } = req.body;
-//   // const { repoId, name } = req.query;
-
-//   // if (!repoId) {
-//   //   throw new Error('Need a repoId query param on webhook URL');
-//   // }
-
-//   // if (event === 'build-status-changed') {
-//   //   await setCommitStatus(build, { repoId, name });
-//   // }
-
-//   res.end("OK");
-// });
-
-// const { PORT = 3000 } = process.env;
-// app.listen(PORT, () =>
-//   console.log(`🚀 Server running on port ${PORT}`)
-// );
