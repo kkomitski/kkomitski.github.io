@@ -54,6 +54,10 @@ function getStatus(build) {
 
 router.get("/hello", (req, res) => {
   console.log("hello");
+  const { event, build } = req.body;
+  console.log("build", build);
+  console.log("event", event);
+
   const status = getStatus(build);
 
   const body = JSON.stringify({
