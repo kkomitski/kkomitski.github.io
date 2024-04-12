@@ -71,7 +71,12 @@ router.post("/webhook", (req, res) => {
     three = req.body.toString();
     four = JSON.parse(req.body.toString());
 
-    console.log("ok", one, two, three, four);
+    console.log("ok", {
+      one: one,
+      one: two,
+      one: three,
+      one: four,
+    });
   } catch (error) {
     if (one) one = "error";
     if (two) two = "error";
