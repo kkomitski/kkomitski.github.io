@@ -59,7 +59,7 @@ router.post("/webhook", (req, res) => {
     // one = req;
     // two = req.body;
 
-    console.log("req: ", req.body.toString());
+    console.log("req: ", JSON.parse(req.body.toString()));
     // console.log("project", req.body.project);
   } catch (error) {
     console.log("error", error);
