@@ -53,6 +53,8 @@ function getStatus(build) {
 }
 
 router.post("/webhook", (req, res) => {
+  console.log("webhook ready");
+
   let one;
   let two;
   let three;
