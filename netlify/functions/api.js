@@ -53,14 +53,17 @@ function getStatus(build) {
 }
 
 router.post("/webhook", (req, res) => {
+  console.log("one", req);
+  console.log("one", req.body.toString());
+  console.log("two", JSON.parse(req.body.toString()));
+
   try {
     console.log("one", req.body.toString());
     console.log("two", JSON.parse(req.body.toString()));
-
-    // res.send(body);
   } catch (error) {
     console.log("error", error);
   }
+  res.send("ok");
 });
 
 api.use("/api/", router);
