@@ -1,46 +1,47 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
+const express = require("express");
+const bodyParser = require("body-parser");
+const fetch = require("node-fetch");
 
 // const { REST_API, TOKEN } = process.env;
 
 function getStatus(build) {
   switch (build.status) {
-    case 'FAILED':
+    case "FAILED":
       return {
-        state: 'error',
-        description: 'Build ${build.number} has suffered a system error. Please try again.',
+        state: "error",
+        description:
+          "Build ${build.number} has suffered a system error. Please try again.",
       };
 
-    case 'BROKEN':
+    case "BROKEN":
       return {
-        state: 'failure',
+        state: "failure",
         description: `Build ${build.number} failed to render.`,
       };
-    case 'DENIED':
+    case "DENIED":
       return {
-        state: 'failure',
+        state: "failure",
         description: `Build ${build.number} denied.`,
       };
-    case 'PENDING':
+    case "PENDING":
       return {
-        state: 'pending',
+        state: "pending",
         description: `Build ${build.number} has ${build.changeCount} changes that must be accepted`,
       };
-    case 'ACCEPTED':
+    case "ACCEPTED":
       return {
-        state: 'success',
+        state: "success",
         description: `Build ${build.number} accepted.`,
       };
-    case 'PASSED':
+    case "PASSED":
       return {
-        state: 'success',
+        state: "success",
         description: `Build ${build.number} passed unchanged.`,
       };
   }
 
   return {
-    context: 'UI Tests',
+    context: "UI Tests",
   };
 }
 
@@ -68,7 +69,7 @@ function getStatus(build) {
 const app = express();
 app.use(bodyParser.json());
 
-app.post('/webhook', async (req, res) => {
+app.post("/webhook", async (req, res) => {
   const status = getStatus(build);
 
   const body = JSON.stringify({
@@ -96,4 +97,6 @@ app.post('/webhook', async (req, res) => {
 });
 
 const { PORT = 3000 } = process.env;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () =>
+  console.log(`🚀 Server running on port ${PORT}`)
+);
