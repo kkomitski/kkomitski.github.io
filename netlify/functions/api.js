@@ -56,11 +56,11 @@ router.post("/webhook", (req, res) => {
   console.log("webhook ready");
 
   try {
-    one = req;
-    two = req.body;
+    // one = req;
+    // two = req.body;
 
-    console.log("req: ", req);
-    console.log("project", req.project);
+    console.log("req: ", req.body.toString());
+    // console.log("project", req.body.project);
   } catch (error) {
     console.log("error", error);
   }
